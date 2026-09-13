@@ -19,7 +19,6 @@ import static com.demcha.compose.document.templates.invoice.presets.LumaStudioSt
 import static com.demcha.compose.document.templates.invoice.presets.LumaStudioStyles.BODY_BOLD;
 import static com.demcha.compose.document.templates.invoice.presets.LumaStudioStyles.CONTENT_WIDTH;
 import static com.demcha.compose.document.templates.invoice.presets.LumaStudioStyles.HAIRLINE;
-import static com.demcha.compose.document.templates.invoice.presets.LumaStudioStyles.INK_SURFACE;
 import static com.demcha.compose.document.templates.invoice.presets.LumaStudioStyles.ITEM_DESC;
 import static com.demcha.compose.document.templates.invoice.presets.LumaStudioStyles.ITEM_INDEX;
 import static com.demcha.compose.document.templates.invoice.presets.LumaStudioStyles.ITEM_TITLE;
@@ -117,7 +116,7 @@ final class LumaStudioLines {
      */
     private static DocumentTableCell headerCell(String text, TextAlign align) {
         return DocumentTableCell.node(tracked("HeaderCell", text, TABLE_HEADER,
-                TRACK_TABLE_HEADER, INK_SURFACE, align, TextVerticalAlign.DEFAULT));
+                TRACK_TABLE_HEADER, align, TextVerticalAlign.DEFAULT));
     }
 
     /**

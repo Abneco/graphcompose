@@ -36,14 +36,27 @@ import java.util.List;
  * {@code ConsultingInvoiceSampleData} — the two modules cannot share a
  * source file, so a content change here belongs there too.</p>
  */
-final class ConsultingInvoiceFixtures {
+public final class ConsultingInvoiceFixtures {
 
     private ConsultingInvoiceFixtures() {
     }
 
     /** The single-page reference invoice. */
-    static StructuredInvoiceDocumentSpec canonicalInvoice() {
+    public static StructuredInvoiceDocumentSpec canonicalInvoice() {
         return StructuredInvoiceDocumentSpec.from(baseBuilder(serviceLines(5)).build());
+    }
+
+    /**
+     * The same invoice with no logo, which is the only way to reach the text
+     * lockup — the brand name over its qualifier, flanked by two rules. Every
+     * other fixture supplies a logo, so that branch of the masthead is drawn
+     * by no committed preview.
+     */
+    public static StructuredInvoiceDocumentSpec logolessInvoice() {
+        return StructuredInvoiceDocumentSpec.from(baseBuilder(serviceLines(5))
+                .brand(new InvoiceBrand(null, "NORTHPOINT", "CONSULTING",
+                        "Strategy. Solutions. Results."))
+                .build());
     }
 
     /** Enough service lines to push the table onto a second page. */

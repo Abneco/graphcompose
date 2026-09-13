@@ -33,7 +33,7 @@ import static com.demcha.compose.document.templates.invoice.presets.ConsultingSt
 import static com.demcha.compose.document.templates.invoice.presets.ConsultingStyles.SMALL_BOLD;
 import static com.demcha.compose.document.templates.invoice.presets.ConsultingStyles.SUPPLIER_WIDTH;
 import static com.demcha.compose.document.templates.invoice.presets.ConsultingText.link;
-import static com.demcha.compose.document.templates.invoice.presets.ConsultingText.tracked;
+import static com.demcha.compose.document.templates.invoice.presets.ConsultingStyles.HEADING_TRACKING;
 
 /**
  * The masthead of the Consulting Invoice: the sender's lockup and contact
@@ -115,8 +115,19 @@ final class ConsultingMasthead {
                         .lineSpacing(1.0)
                         .margin(DocumentInsets.zero()))
                 .addParagraph(paragraph -> paragraph
-                        .text(brand.qualifier().isBlank()
-                                ? "" : "—  " + tracked(brand.qualifier()) + "  —")
+                        // Three runs, because only the word is tracked. The rules
+                        // that flank it are punctuation set at the qualifier's own
+                        // size; tracking them would spread the dashes off the word
+                        // they point at.
+                        .rich(rich -> {
+                            if (brand.qualifier().isBlank()) {
+                                return;
+                            }
+                            rich.style("—  ", BRAND_QUALIFIER)
+                                    .style(brand.qualifier(),
+                                            BRAND_QUALIFIER.withLetterSpacing(HEADING_TRACKING))
+                                    .style("  —", BRAND_QUALIFIER);
+                        })
                         .textStyle(BRAND_QUALIFIER)
                         .align(TextAlign.CENTER)
                         .margin(DocumentInsets.zero()))
@@ -152,8 +163,8 @@ final class ConsultingMasthead {
                 .padding(0, 0, 0, 24)
                 .spacing(1)
                 .addParagraph(paragraph -> paragraph
-                        .text(tracked(masthead.title()))
-                        .textStyle(INVOICE_TITLE)
+                        .text(masthead.title())
+                        .textStyle(INVOICE_TITLE.withLetterSpacing(HEADING_TRACKING))
                         .margin(DocumentInsets.bottom(8)));
         for (InvoiceMasthead.Entry entry : masthead.entries()) {
             metadataBand(section, entry);
@@ -206,8 +217,8 @@ final class ConsultingMasthead {
             return;
         }
         section.addParagraph(paragraph -> paragraph
-                        .text(tracked(heading))
-                        .textStyle(SECTION_HEADING)
+                        .text(heading)
+                        .textStyle(SECTION_HEADING.withLetterSpacing(HEADING_TRACKING))
                         .lineSpacing(1.0)
                         .margin(DocumentInsets.zero()))
                 .addLine(line -> line
