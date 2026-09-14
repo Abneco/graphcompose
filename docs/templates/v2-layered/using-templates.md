@@ -215,6 +215,38 @@ BoxedSections.create(BrandTheme.boxedClassic())    // explicit
 BoxedSections.create(myCustomTheme)             // your own
 ```
 
+<a id="ats-friendly-presets"></a>
+### ATS-friendly and design-first presets
+
+Many applicant tracking systems read a CV with a PDF parser before a person
+sees it, so every CV preset falls into one of two categories:
+
+- **ATS-friendly** — validated for text extraction, section recognition and
+  reading order using multiple independent PDF resume parsers. The showcase
+  marks these with an "ATS-friendly" badge.
+- **Design-first** — the layout is the point of the design: a sidebar,
+  columns, a monogram. The text still extracts, but the layout costs a parser
+  at least one of those checks, and the preset keeps its design rather than
+  trading it away.
+
+The badge is earned, not assumed. Each preset's showcase sample was read with
+the OpenResume parser (pdf.js), ATS Reader (pdfplumber) and resume-parser-ats
+(pdf-parse), last on 2026-09-14. It is not a claim about every ATS product,
+and a document with different content can parse differently.
+
+| ATS-friendly preset | Known parser limitation |
+|---|---|
+| `BlueBanner.create()` | — |
+| `BoxedSections.create()` | — |
+| `CenteredHeadline.create()` | — |
+| `ClassicSerif.create()` | — |
+| `EditorialBlue.create()` | — |
+| `Executive.create()` | — |
+| `MinimalUnderlined.create()` | — |
+| `ModernProfessional.create()` | ATS Reader does not recognise the multi-word headings "Professional Experience" and "Technical Skills"; the other two parsers do |
+
+Every other CV preset is design-first.
+
 ### Presets that cap content
 
 Three presets are compositions for a fixed amount of content rather than
@@ -229,22 +261,24 @@ API or the produced PDF reports that they were dropped.
 | `MintEditorial.create()` | 6 expertise labels, 6 skill bars (experience spans both pages in full) |
 
 The caps are load-bearing, not a matter of taste: each of these presets
-builds its columns as one `addRow`, and a row is atomic — it fits a page
-whole or the paginator raises `AtomicNodeTooLargeException`. Lifting a
+builds its columns as one atomic node — a row or a layer stack — that fits
+a page whole or the paginator raises `AtomicNodeTooLargeException`. Lifting a
 cap without teaching the preset to pick its own page boundaries turns a
 CV that silently lost an entry into one that fails to render.
 
-`ProfessionalSidebar.create()`, `NavySidebar.create()`,
-`SerifHeadline.create()` and `CharcoalGold.create()` are compositions
-for a fixed amount of content that cap nothing: each reproduces a
-specific one-page sheet, so a CV longer than that sheet raises
-`AtomicNodeTooLargeException` instead of losing an entry to a cap. Size
-the document to them — roughly five or six roles with three or four
-highlights each, alongside the other blocks.
+`NavySidebar.create()`, `SerifHeadline.create()` and
+`CharcoalGold.create()` are compositions for a fixed amount of content
+that cap nothing: each reproduces a specific one-page sheet, so a CV
+longer than that sheet raises `AtomicNodeTooLargeException` instead of
+losing an entry to a cap. Size the document to them — roughly five or six
+roles with three or four highlights each, alongside the other blocks.
 
 If the document's length is the author's rather than the template's,
-pick a preset that paginates — `TimelineMinimal` splits its own columns
+pick a preset that paginates. `TimelineMinimal` splits its own columns
 and carries every entry it is given onto as many pages as it needs.
+`ProfessionalSidebar` and `TerracottaRail` keep the sheet they were drawn
+as for a CV that fits it, and carry a longer one onto more pages a whole
+role, project or sidebar list at a time.
 
 `NordicClean` also exposes preset-specific options because its
 signature has a structural rail and three editable colour surfaces:
