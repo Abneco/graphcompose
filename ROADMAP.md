@@ -6,7 +6,7 @@ GraphCompose is solo-maintained. This roadmap is a direction, not a contract. Da
 
 The live threads are tracked in [issues](https://github.com/DemchaAV/GraphCompose/issues): bringing the DOCX export onto the shared fixed-layout geometry the PPTX backend already renders from, growing the built-in layered template line-up, and keeping the knowledge pack current as the API moves. Vector clipping for the PPTX backend remains open.
 
-## Upcoming — 2.4
+## Current stable — 2.4
 
 **2.4.0** is the current release. It leads with a **much larger template line-up**. Two
 families join invoice, proposal, CV and cover letter: **receipt**, for payment
@@ -28,7 +28,7 @@ its text, style an item in pieces, and draw its markers in a colour of their own
 
 Full detail in [CHANGELOG.md](CHANGELOG.md) under `v2.4.0`.
 
-## Current stable — 2.3
+## Previously — 2.3
 
 **2.3.0** is the current release. It leads with **page chrome built from nodes**: a
 `DocumentPageZone` takes a content function and lays a real node subtree into the band —
