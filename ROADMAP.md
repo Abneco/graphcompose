@@ -2,9 +2,31 @@
 
 GraphCompose is solo-maintained. This roadmap is a direction, not a contract. Dates are intentionally omitted. Concrete work is tracked in [issues](https://github.com/DemchaAV/GraphCompose/issues) and shipped work is recorded in [CHANGELOG.md](CHANGELOG.md).
 
-## Now — after 2.3
+## Now — after 2.4
 
 The live threads are tracked in [issues](https://github.com/DemchaAV/GraphCompose/issues): bringing the DOCX export onto the shared fixed-layout geometry the PPTX backend already renders from, growing the built-in layered template line-up, and keeping the knowledge pack current as the API moves. Vector clipping for the PPTX backend remains open.
+
+## Upcoming — 2.4
+
+**2.4.0** is the current release. It leads with a **much larger template line-up**. Two
+families join invoice, proposal, CV and cover letter: **receipt**, for payment
+confirmations (`ModernReceipt`), and **rota**, a staff shift schedule (`CobaltRota`) on a
+new `templates.data.rota` model that replaces the `data.schedule` records nothing rendered.
+The invoice, proposal and CV families gain presets, and the structured invoice and proposal
+models grow to carry what those designs print. Every CV preset is now either
+**ATS-friendly** or **design-first**, a classification made by reading its showcase sample
+with three resume parsers; the showcase marks the ATS-friendly ones.
+
+The engine work under it is typographic. `DocumentTextStyle` carries **real letter
+spacing** — PDF `Tc`, DrawingML `spc`, Word `w:spacing` — so spaced caps copy and search as
+the word they are instead of letters padded with spaces, and the built-in CV and
+cover-letter presets use it. A timeline's rail is one line resolved from where its markers
+landed, and the timeline can put a column before its markers, size the marker column in
+points and set the gap before a marker on its own. A list can hang its wrapped lines under
+its text, style an item in pieces, and draw its markers in a colour of their own.
+`graph-compose-templates` joins `graph-compose-core` under the binary-compatibility gate.
+
+Full detail in [CHANGELOG.md](CHANGELOG.md) under `v2.4.0`.
 
 ## Current stable — 2.3
 

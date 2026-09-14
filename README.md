@@ -20,7 +20,7 @@
 
 > **Release status** &mdash;
 > 🟢 **Latest stable**: [v2.3.0](https://github.com/DemchaAV/GraphCompose/releases/tag/v2.3.0) &mdash; **page chrome built from nodes**: a repeating footer or running head takes any node subtree &mdash; a badge, a link, a page reference &mdash; laid out by the same engine as the body, exporting to Word as a live `PAGE` field; plus a machine-readable **knowledge pack** describing the whole public API, gated in CI and attached to every release. See [CHANGELOG.md](./CHANGELOG.md).
-> &nbsp;·&nbsp; 🟡 **In development**: v2.4.0 on `develop` &mdash; see [CHANGELOG.md](./CHANGELOG.md).
+> &nbsp;·&nbsp; 🟡 **In development**: v2.4.0 on `develop` &mdash; **a much larger template line-up**: two new families, **receipt** and **rota**, new invoice, proposal and CV presets, and every CV preset marked ATS-friendly or design-first after three resume parsers read it; plus **real letter spacing** that keeps tracked caps searchable, one continuous timeline rail, and list items with hanging indents and drawn markers. See [CHANGELOG.md](./CHANGELOG.md).
 
 <p align="center">
   <img src="./assets/readme/repository_showcase_render.png" alt="Documents rendered with GraphCompose" width="780"/>

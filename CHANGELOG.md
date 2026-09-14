@@ -2109,6 +2109,21 @@ follow semantic versioning; release dates are ISO 8601.
   render page by page, so the build fails when either changes, until the check is run on the
   new render.
 
+- **The README leads with a first PDF, then routes by task, and every template family has
+  a door.** Three competing "what next" lists in the README became one *What to read next*
+  table with four rows — Recipes, Templates, Testing, Production. `docs/templates/README.md`
+  is new: the one page that lists all six shipped families, business (invoice, proposal,
+  receipt, rota) and profile (CV, cover letter), with the data package each takes, and
+  defines *DSL*, *preset* and *template* once. Receipt and rota were not reachable from the
+  onboarding path before it, and `docs/templates/which-template-system.md` still said no
+  rota template existed; it now maps `WeeklyScheduleTemplateV1` to `CobaltRota`. The "which
+  artifact?" table is anchored as `#which-artifact` and links every module README, which the
+  module READMEs and the migration and template guides now point at. Wrong API names in the
+  recipes are corrected: z-order is the `zIndex` argument of `position(...)`, `colSpan` and
+  `rowSpan` are `DocumentTableCell` methods, and the chart grid and tick toggles live on
+  `AxisSpec`. The three twin-output figures only the old README showed are deleted; the
+  Twin Output example and its PDF and PPTX previews stay.
+
 ## v2.3.0 — 2026-08-31
 
 ### Public API

@@ -186,7 +186,8 @@ Two inventories track what is deferred to the next major:
 - **Template surfaces and pre-rebuild aliases** — the 1.x → 2.0 removals
   are done on the 2.0 line; the migration map lives in
   [`docs/templates/which-template-system.md` § 3](templates/which-template-system.md#3-migrating-a-pre-20-caller).
-- **Every other public-API rework, simplification, or deprecation** — the ledger below.
+- **Every other public-API rework, simplification, or deprecation** — the ledger below,
+  and the table of 2.x deprecations that follows it.
 
 #### 2.0 breaking-changes ledger
 
@@ -209,6 +210,16 @@ window starts, and its `Status` flips to `deprecated 1.x`.
 |---|---|---|---|---|---|---|
 | `DocumentSession.pageMargins(List<PageMarginRule>)` / `PageMarginRule` | Stable | planned | Per-page margins resolve a block's content width by the page it *begins* on (the engine measures each block once, before pagination). A margin that changes the content width therefore does not re-wrap a block mid-flow across a page boundary. | Revisit a page-aware per-line/per-fragment width model so a block can re-wrap when it crosses a margin boundary, if demand warrants. | — | — |
 | `io.github.demchaav:graph-compose` single-jar packaging | Stable | **landed 2.0** | The one published jar bundled the engine, the PDFBox render backend, the POI semantic backend, zxing, and the template families, so an engine-only or bring-your-own-backend consumer still pulled all of them. | **Done in 2.0.** Split into per-concern lockstep modules, render backends discovered via a `ServiceLoader` SPI. The root coordinate is renamed `graph-compose-core` (the lean engine); `graph-compose` is kept as a back-compat wrapper over `graph-compose-core` + `graph-compose-render-pdf`, so it still renders PDF out of the box. Templates are opt-in (`graph-compose-templates`); DOCX / PPTX ship in `graph-compose-render-docx` / `-render-pptx`. Migration: [modules guide](migration/v2.0.0-modules.md). | [ADR 0016](adr/0016-multi-module-packaging.md) | — |
+
+#### Deprecated on the 2.x line
+
+Stable elements deprecated since 2.0. Each still ships, still compiles and is still held
+by the binary-compatibility gate below; none is removed before 3.0.
+
+| Element | Since | `forRemoval` | Replacement |
+|---|---|---|---|
+| `templates.core.text.TextOrnaments.spacedUpper(String)` | 2.4.0 | `true` | `TextOrnaments.upper(...)` for the text, with `TextOrnaments.SPACED_CAPS` or any `DocumentLetterSpacing` on the style — the tracking is drawn instead of written into the string. |
+| `templates.data.schedule` — every type (`WeeklyScheduleData`, `WeeklyScheduleDocumentSpec`, `ScheduleDay`, `ScheduleCategory`, `SchedulePerson`, `ScheduleAssignment`, `ScheduleSlot`, `ScheduleMetricRow`) | 2.4.0 | `false` | `templates.data.rota`; each type's Javadoc names its counterpart. |
 
 ### Binary-compatibility enforcement
 
@@ -296,7 +307,9 @@ Javadoc per element.
 | `com.demcha.compose.document.templates.coverletter.*` | **Stable** | `graph-compose-templates` | Layered cover-letter family. |
 | `com.demcha.compose.document.templates.invoice.*` | **Stable** | `graph-compose-templates` | Layered invoice family — `ModernInvoice` on `InvoiceDocumentSpec`. |
 | `com.demcha.compose.document.templates.proposal.*` | **Stable** | `graph-compose-templates` | Layered proposal family — `ModernProposal` on `ProposalDocumentSpec`. |
-| `com.demcha.compose.document.templates.data.*` | **Stable** | `graph-compose-templates` | Family-neutral document data records (invoice / proposal / schedule specs). |
+| `com.demcha.compose.document.templates.receipt.*` | **Stable** | `graph-compose-templates` | Layered receipt family — `ModernReceipt` on `ReceiptDocumentSpec`. First shipped in 2.4.0. |
+| `com.demcha.compose.document.templates.rota.*` | **Stable** | `graph-compose-templates` | Layered rota (staff shift schedule) family — `CobaltRota` on `StructuredRotaDocumentSpec`. First shipped in 2.4.0. |
+| `com.demcha.compose.document.templates.data.*` | **Stable** | `graph-compose-templates` | Family-neutral document data records (invoice / proposal / receipt / rota specs; the `data.schedule` records are deprecated since 2.4.0 in favour of `data.rota`). |
 | `com.demcha.compose.document.backend.fixed.pptx` | **Experimental** | `graph-compose-render-pptx` | Marked `@Beta` at the package level — `PptxFixedLayoutBackend`, its builder, and `PptxFixedLayoutBackendProvider`. First shipped in 2.1.0. |
 | `com.demcha.compose.document.backend.fixed.pptx.handlers` | **Experimental** | `graph-compose-render-pptx` | Marked `@Beta` at the package level — the `PptxFragmentRenderHandler` seam and its built-in handlers. |
 | `com.demcha.compose.document.layout.*` | **Internal** | `graph-compose-core` | Marked `@Internal` at the package level. Engine surface. |
