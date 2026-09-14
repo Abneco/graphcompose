@@ -8,7 +8,7 @@ invoice, proposal}`, every preset a final class with a
 
 > **Dependency.** These presets ship in the opt-in `graph-compose-templates` artifact — not
 > bundled in `graph-compose`. Add it, or depend on `graph-compose-bundle`. See the
-> [README install matrix](../../README.md#installation).
+> [README module table](../../README.md#which-artifact).
 
 Through the 1.x line this page was a decision guide between two parallel
 surfaces. On the 2.0 line the decision is gone; what remains here is the
@@ -88,7 +88,7 @@ migration is the theme + data-record swap:
 |---|---|
 | `InvoiceTemplateV1` / `InvoiceTemplateV2` | `templates.invoice.presets.ModernInvoice` — `create()` or `create(BrandTheme)`, data record `InvoiceDocumentSpec`. |
 | `ProposalTemplateV1` / `ProposalTemplateV2` | `templates.proposal.presets.ModernProposal` — same shape, data record `ProposalDocumentSpec`. |
-| `WeeklyScheduleTemplateV1` | No template yet. Model the rota on `templates.data.rota` (`StructuredRotaDocumentSpec`) and author the rendering on the canonical DSL. The `templates.data.schedule` records still ship but are **deprecated since 2.4.0**: they hold their colours in the data, know nothing of staff bands, and nothing ever rendered them. |
+| `WeeklyScheduleTemplateV1` | `templates.rota.presets.CobaltRota` — `create()`, data record `StructuredRotaDocumentSpec` (which wraps `StructuredRotaData`). The `templates.data.schedule` records still ship but are **deprecated since 2.4.0**: they hold their colours in the data, know nothing of staff bands, and nothing ever rendered them. |
 
 ### Legacy PDF API → canonical DSL
 

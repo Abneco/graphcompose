@@ -1,26 +1,47 @@
 # GraphCompose Documentation
 
-Comprehensive docs for the engine, the templates, and the
-contribution workflow. Below is the map — pick your path.
+Use these docs as a path while learning and as a catalogue afterwards. You do not
+need to understand the engine, module layout, or ADRs to generate documents.
 
-If you're new to GraphCompose entirely, start at the
-[**root README**](../README.md) for the project overview, then come
-back here.
+If you have not rendered anything yet, begin with the [root README](../README.md).
 
----
+## The learning path
 
-## 🧭 By persona — start here
+Follow the path only as far as your current task requires:
 
-| You are… | Read |
+1. **Render one PDF:** [Your first document](first-document.md).
+2. **Add the blocks you need:** [Recipes](recipes.md) explains where text, tables,
+   charts, icons, images, cards, rows, backgrounds, and canvases fit.
+3. **Reuse a ready-made design:** [Templates](templates/README.md) — invoice,
+   proposal, receipt and rota for business documents; CV and cover letter for profiles.
+4. **Protect the result:** [Testing your document](operations/test-your-document.md)
+   adds deterministic layout snapshots and pixel-level visual diffs.
+5. **Run it in a backend:** [Production rendering](operations/production-rendering.md)
+   covers streams, concurrency, failure handling, and operations.
+
+Stop there if you are a library user. Continue to
+[Contributing](../CONTRIBUTING.md), the [architecture overview](architecture/overview.md),
+and [extension guide](contributing/extension-guide.md) only when you are changing
+GraphCompose itself.
+
+## Go directly to a task
+
+| I need to… | Read |
 |---|---|
-| **New to GraphCompose** — what is it, how do I render my first PDF | [Your first document](first-document.md) → [Getting started](getting-started.md) |
-| **Author rendering an invoice or proposal** | [Templates v2 (layered) — using templates](templates/v2-layered/using-templates.md) |
-| **Author rendering a CV** with your own data | [Templates v2 (layered) — quickstart](templates/v2-layered/quickstart.md) |
-| **Designer / author** wanting a custom visual style for CVs | [Templates v2 (layered) — authoring presets](templates/v2-layered/authoring-presets.md) |
-| **Maintainer of a pre-2.0 caller** (classic `*Spec` + builder templates, removed in 2.0) | [Which template system? — migration map](templates/which-template-system.md) |
-| **Contributor adding a new template family** to the library | [Templates v2 (layered) — contributor guide](templates/v2-layered/contributor-guide.md) |
-| **Contributor extending the engine** (new node type, new backend handler) | [Extension guide](contributing/extension-guide.md) → [Package map](architecture/package-map.md) |
-| **Operator** running GraphCompose in production | [Production rendering](operations/production-rendering.md) → [Performance](operations/performance.md) → [Logging](operations/logging.md) |
+| Add text, a list, table, chart, timeline, image, icon, emoji, or barcode | [Content and data recipes](recipes.md#content-and-data) |
+| Build columns, cards, clipping, overlapping layers, backgrounds, or a canvas | [Layout and visual recipes](recipes.md#layout-and-visual-composition) |
+| Add a header, footer, page number, watermark, link, bookmark, or contents page | [Page behaviour recipes](recipes.md#page-behaviour-output-and-development) |
+| Inspect layout boxes or create a page preview while developing | [Developer tools and output](recipes.md#page-behaviour-output-and-development) |
+| Protect a document with snapshots and visual diffs | [Testing your document](operations/test-your-document.md) |
+| Pick a ready-made document design | [Templates overview](templates/README.md) — all six families |
+| Render an invoice or proposal from data | [Business templates](templates/business-templates.md) |
+| Render a receipt or a shift rota from data | [Templates overview](templates/README.md#business-documents) |
+| Render a CV or cover letter with my own data | [CV and cover-letter quickstart](templates/v2-layered/quickstart.md) |
+| Design a custom CV style | [Authoring presets](templates/v2-layered/authoring-presets.md) |
+| Upgrade a pre-2.0 caller | [2.0 migration guide](migration/v2.0.0-modules.md) |
+| Add a new template family | [Template contributor guide](templates/v2-layered/contributor-guide.md) |
+| Add a node or backend handler | [Extension guide](contributing/extension-guide.md) → [Package map](architecture/package-map.md) |
+| Operate GraphCompose in production | [Production rendering](operations/production-rendering.md) → [Performance](operations/performance.md) → [Logging](operations/logging.md) |
 
 ---
 
@@ -34,35 +55,52 @@ back here.
 - **[troubleshooting.md](troubleshooting.md)** — symptom-first fixes for common gotchas: stray `?` glyphs, silent DOCX drops, optional-dependency `NoClassDefFoundError`, running the bundled examples.
 
 ### Templates
+- **[templates/README.md](templates/README.md)** — start here: all six shipped families, what data each takes, and which guide to open.
 - **[templates/business-templates.md](templates/business-templates.md)** — invoice & proposal templates: the compose-first contract, end to end, on the layered `ModernInvoice` / `ModernProposal` surface.
 - **[templates/v2-layered/](templates/v2-layered/)** — the template surface (CV is the reference implementation): `data` / `components` / `widgets` / `presets` per family, over the shared `templates.core.theme`.
 - **[templates/v1-classic/](templates/v1-classic/)** — 🗄️ archived: the classic spec/builder/presets surface removed in 2.0; kept for pre-2.0 callers.
 
-### Output backends
-- **[architecture/backend-capability-matrix.md](architecture/backend-capability-matrix.md)** — what each render backend supports, per capability. The source of truth for PDF vs PPTX fidelity.
-- **[../render-pptx/README.md](../render-pptx/README.md)** — `graph-compose-render-pptx`: editable PowerPoint decks from the same session that prints the PDF (`@Beta`, first shipped in 2.1.0).
-- **[api-stability.md](api-stability.md)** — stability tier per package, and what a tier promises.
+### Recipes
+- **[recipes.md](recipes.md)** — the catalogue: every recipe page and what it covers.
+- **[recipes/rich-text.md](recipes/rich-text.md)** — styled runs, links, inline images, SVG icons, emoji, shapes, and checkboxes.
+- **[recipes/lists.md](recipes/lists.md)** — flat and nested lists with custom markers and spacing.
+- **[recipes/charts.md](recipes/charts.md)** — native vector bar/line/area/pie charts.
+- **[recipes/tables.md](recipes/tables.md)** — columns, structured cells, spans, zebra rows, totals, and repeated headers.
+- **[recipes/timelines.md](recipes/timelines.md)** — timelines, marker/rail geometry, dated entries, and pagination controls.
+- **[recipes/images.md](recipes/images.md)** — image sources, sizing, fit modes, rows, and cards.
+- **[recipes/barcodes.md](recipes/barcodes.md)** — QR and common barcode formats, tinting, quiet zones, and placement.
+- **[recipes/keep-together.md](recipes/keep-together.md)** — blocks that never split at a page break.
+- **[recipes/shapes.md](recipes/shapes.md)** — cards, dividers, lines, ellipses, images.
+- **[recipes/shape-as-container.md](recipes/shape-as-container.md)** — shapes that hold child content.
+- **[recipes/transforms.md](recipes/transforms.md)** — rotation, scaling, skewing.
+- **[recipes/themes.md](recipes/themes.md)** — custom themes.
+- **[recipes/pdf-chrome.md](recipes/pdf-chrome.md)** — metadata, watermarks, headers, footers, page zones, and protection.
+- **[recipes/in-pdf-navigation.md](recipes/in-pdf-navigation.md)** — anchors, links, page references, bookmarks, and tables of contents.
+- **[recipes/streaming.md](recipes/streaming.md)** — streaming PDFs to HTTP responses.
+- **[recipes/snapshot-testing.md](recipes/snapshot-testing.md)** — layout regression baselines in consumer projects.
+- **[recipes/docx-export.md](recipes/docx-export.md)** — semantic DOCX output and capability fallbacks.
+- **[recipes/extending.md](recipes/extending.md)** — extension patterns by example.
+- **[recipes/page-backgrounds.md](recipes/page-backgrounds.md)** — per-page fills: sidebars, bands, layered tints.
+- **[recipes/layered-page-design.md](recipes/layered-page-design.md)** — page background vs. row vs. layer stack vs. canvas.
+- **[recipes/absolute-placement.md](recipes/absolute-placement.md)** — pixel-precise canvas placement.
+- **[font-coverage.md](font-coverage.md)** — WinAnsi limits, `●` vs `•`, and glyph fallback.
 
-### Architecture
-- **[architecture/overview.md](architecture/overview.md)** — high-level system architecture (engine + DSL + templates + backends).
-- **[architecture/lifecycle.md](architecture/lifecycle.md)** — the document lifecycle from `GraphCompose.document(...)` through `buildPdf()`.
-- **[architecture/pagination-ordering.md](architecture/pagination-ordering.md)** — how nodes are paginated and ordered.
-- **[architecture/package-map.md](architecture/package-map.md)** — what's in which package.
-- **[architecture/canonical-legacy-parity.md](architecture/canonical-legacy-parity.md)** — per-feature authoring coverage of the canonical API, refreshed for the 2.1 line. The recipes, the capabilities catalogue and the troubleshooting guide all link into it.
-
-### Operations
+### Operations / Testing
+- **[operations/test-your-document.md](operations/test-your-document.md)** — consumer smoke tests, layout snapshots, and PDF visual diffs.
+- **[operations/visual-regression-testing.md](operations/visual-regression-testing.md)** — pixel-level PDF baselines, diffs, tolerances, and approval flow.
+- **[operations/layout-snapshot-testing.md](operations/layout-snapshot-testing.md)** — deterministic geometry regression testing.
 - **[operations/production-rendering.md](operations/production-rendering.md)** — server-side rendering, streaming, thread safety.
 - **[operations/performance.md](operations/performance.md)** — perf characteristics + tuning.
 - **[operations/benchmarks.md](operations/benchmarks.md)** — how to run benchmarks; reference numbers.
 - **[operations/logging.md](operations/logging.md)** — logger configuration, what each logger emits.
-- **[operations/layout-snapshot-testing.md](operations/layout-snapshot-testing.md)** — snapshot-based layout regression testing.
 
-### Contributing
-- **[contributing/extension-guide.md](contributing/extension-guide.md)** — add a new node type, backend handler, or theme primitive.
-- **[architecture/pagination-ordering.md](architecture/pagination-ordering.md)** — how nodes are paginated and ordered, for contributors working on layout / measurement.
-- **[contributing/release-process.md](contributing/release-process.md)** — versioning, tag procedure, Maven Central publication.
+### Output backends
+- **[architecture/backend-capability-matrix.md](architecture/backend-capability-matrix.md)** — what each render backend supports, per capability. The source of truth for PDF vs PPTX fidelity.
+- **[../render-pptx/README.md](../render-pptx/README.md)** — `graph-compose-render-pptx`: editable PowerPoint decks from the same session that prints the PDF (`@Beta`, first shipped in 2.1.0).
+- **[../render-docx/README.md](../render-docx/README.md)** — `graph-compose-render-docx`: semantic Word export with partial capability coverage and no full PDF parity.
+- **[api-stability.md](api-stability.md)** — stability tier per package, and what a tier promises.
 
-### Migrations & roadmap
+### Migrations
 - **[migration/v2.0.0-modules.md](migration/v2.0.0-modules.md)** — the current upgrade guide: the 1.x → 2.x module split, the one dependency-level break, and every removed API with its replacement.
 - **[migration/v1.8.0-fonts.md](migration/v1.8.0-fonts.md)** — the fonts artifact split, still relevant to anyone adding `graph-compose-fonts`.
 - **[../ROADMAP.md](../ROADMAP.md)** — direction for the line after 2.1.
@@ -78,23 +116,22 @@ Kept for anyone stepping through the 1.x line one minor at a time. Nothing here 
 
 </details>
 
-### Recipes (cookbook-style howtos)
-- **[recipes.md](recipes.md)** — the catalogue: every recipe page and what it covers.
-- **[recipes/charts.md](recipes/charts.md)** — native vector bar/line/area/pie charts.
-- **[recipes/keep-together.md](recipes/keep-together.md)** — blocks that never split at a page break.
-- **[recipes/shapes.md](recipes/shapes.md)** — cards, dividers, lines, ellipses, images.
-- **[recipes/shape-as-container.md](recipes/shape-as-container.md)** — shapes that hold child content.
-- **[recipes/transforms.md](recipes/transforms.md)** — rotation, scaling, skewing.
-- **[recipes/tables.md](recipes/tables.md)** — tabular layouts.
-- **[recipes/themes.md](recipes/themes.md)** — custom themes.
-- **[recipes/streaming.md](recipes/streaming.md)** — streaming PDFs to HTTP responses.
-- **[recipes/extending.md](recipes/extending.md)** — extension patterns by example.
-- **[recipes/page-backgrounds.md](recipes/page-backgrounds.md)** — per-page fills: sidebars, bands, layered tints.
-- **[recipes/layered-page-design.md](recipes/layered-page-design.md)** — page background vs. row vs. layer stack vs. canvas.
-- **[recipes/absolute-placement.md](recipes/absolute-placement.md)** — pixel-precise canvas placement.
-- **[font-coverage.md](font-coverage.md)** — WinAnsi limits, `●` vs `•`, and glyph fallback.
+<details>
+<summary><b>Library internals</b> — architecture, contributing, and ADRs. Needed only when you change GraphCompose itself, never to author a document.</summary>
 
-### Architecture Decision Records (ADRs)
+### Architecture
+- **[architecture/overview.md](architecture/overview.md)** — high-level system architecture (engine + DSL + templates + backends).
+- **[architecture/lifecycle.md](architecture/lifecycle.md)** — the document lifecycle from `GraphCompose.document(...)` through `buildPdf()`.
+- **[architecture/pagination-ordering.md](architecture/pagination-ordering.md)** — how nodes are paginated and ordered.
+- **[architecture/package-map.md](architecture/package-map.md)** — what's in which package.
+- **[architecture/canonical-legacy-parity.md](architecture/canonical-legacy-parity.md)** — per-feature authoring coverage of the canonical API, refreshed for the 2.1 line. The recipes, the capabilities catalogue and the troubleshooting guide all link into it.
+
+### Contributing
+- **[contributing/extension-guide.md](contributing/extension-guide.md)** — add a new node type, backend handler, or theme primitive.
+- **[architecture/pagination-ordering.md](architecture/pagination-ordering.md)** — how nodes are paginated and ordered, for contributors working on layout / measurement.
+- **[contributing/release-process.md](contributing/release-process.md)** — versioning, tag procedure, Maven Central publication.
+
+### ADRs
 Numbered, dated decisions about non-trivial design choices. Read these
 when you need to understand *why* a piece of the system looks the way
 it does.
@@ -113,6 +150,8 @@ it does.
 > **ADR numbering gap (0005–0010)** is intentional — those numbers
 > were reserved during a v1.5 restructure that landed under ADR 0011
 > instead of multiple smaller records. No deleted ADRs.
+
+</details>
 
 ### Showcase website (separate from docs)
 - The public showcase website is **not** documentation — it lives in
