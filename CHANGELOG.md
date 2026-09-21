@@ -48,6 +48,34 @@ follow semantic versioning; release dates are ISO 8601.
   foreground composites with the slide, and checks the background shape lands on the
   fragment box.
 
+### Build
+
+- **A CI artifact expires on a schedule that matches what it is for.** No
+  `actions/upload-artifact` step declared `retention-days`, so all seven inherited the
+  repository default of 90 days — the ceiling. Artifact storage is billed and capped per
+  account rather than per repository, and this repository had grown to 10.7 GB across some
+  2968 live artifacts, which exhausted the shared quota; the failure surfaced where it could
+  not be diagnosed from, in another repository whose unrelated uploads began failing with
+  `Artifact storage quota has been hit`. Two families were nearly the whole bill —
+  `examples-pdfs` at 7.57 GB over 1009 artifacts and `coverage-core-aggregate` at 2.66 GB
+  over 837 — and nothing downstream reads any of them: there is no `actions/download-artifact`
+  anywhere in `.github/workflows/`, so each exists for a person to open, and the right window
+  is however long a person plausibly wants it. Those two now keep 7 days, the span of a
+  review. `japicmp-report` keeps 30, because it answers "when did this signature move, and
+  against which baseline" during release prep rather than during the pull request.
+  `benchmark-smoke` and `benchmark-gate-reports` keep 14 days together, deliberately the same
+  number, since the gate verdict in one explains the numbers in the other and a shorter window
+  on either would leave an investigation holding half a pair. The two weekly trend series,
+  `benchmark-full` and `jmh-results`, keep the full 90: at one run a week a short window holds
+  a point or two and shows no trend at all, and they cost tens of KB each. What proves a render
+  weeks later is the committed layout-snapshot and visual baselines, not a retained artifact.
+
+- **Build and test dependencies move with the `maven-minor-patch` group.** `exec-maven-plugin`
+  3.6.3 → 3.6.4 in `benchmarks/` and `examples/`, `maven-install-plugin` and
+  `maven-deploy-plugin` 3.1.4 → 3.2.0, and the test-scope `byte-buddy` pin 1.18.13 → 1.18.14
+  in `core/`. Every one is build- or test-scope, so the dependency set a consumer inherits
+  from a published artifact is what it was in v2.4.0.
+
 ### Documentation
 
 - **The showcase site's menu and section links reach the gallery, and its pages link
