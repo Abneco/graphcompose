@@ -586,7 +586,14 @@ check("with no release context the panel names no coordinates rather than guessi
   const said = page.panelText();
   assert.doesNotMatch(said, /undefined/);
   assert.doesNotMatch(said, /<version>/);
-  assert.ok(page.panelLinks().every((link) => !link.href.includes("/blob/v")),
+  // The panel pins a link only when it has a release to pin to, so with none it publishes the
+  // catalogue's own address and nothing besides — no family guide, no snippet source. Held to
+  // that address rather than to the absence of a "/blob/v" segment: the release cut flips the
+  // catalogue itself onto /blob/v<release> (ShowcaseMetadata.GH_BASE), so the pattern called
+  // the panel a liar on every release commit, which is what it did on the v2.4.1 cut.
+  const card = exampleOf("cv-blue-banner-v2");
+  const fallback = card.code && card.code !== "#" ? [card.code] : [];
+  assert.deepEqual(page.panelLinks().map((link) => link.href), fallback,
     "with no release to pin to, a link falls back to the address the catalogue already carries");
 });
 
