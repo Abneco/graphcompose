@@ -1892,8 +1892,13 @@ try {
     )
     # The documentation page and the document pages name the release too — in their guide links
     # and their coordinates — so they ride with the page and the data above, a page per card
-    # included, and any page the rebuild deleted.
-    $commitFiles += @(Get-GeneratedPagePathspecs)
+    # included, and any page the rebuild deleted. They stage through an `add` of their own,
+    # because their list carries :(exclude)web/showcase and git applies an exclude to the
+    # WHOLE invocation rather than to the pathspecs beside it. Listed in one `add` with the
+    # showcase assets below, the exclude cancelled them: the first v2.4.1 cut committed none
+    # of the 133 showcase files its own regeneration had just rewritten, and left them as
+    # working-tree churn under a tag that was supposed to carry them.
+    $pagePathspecs = @(Get-GeneratedPagePathspecs)
     # qa + coverage exist only in the 2.0 aggregator layout; add them to the commit
     # only when present so the script stays layout-agnostic (the 1.x single-artifact
     # tree has neither) — mirroring Update-PomVersion's skip-if-absent guard. On a 2.0
@@ -1961,9 +1966,15 @@ try {
     }
     if ($DryRun) {
         Write-Host "    [DRY RUN] git add $($commitFiles -join ' ')" -ForegroundColor Yellow
+        if ($pagePathspecs.Count) {
+            Write-Host "    [DRY RUN] git add $($pagePathspecs -join ' ')" -ForegroundColor Yellow
+        }
         Write-Host "    [DRY RUN] git commit -m `"$commitMsg`"" -ForegroundColor Yellow
     } else {
         Invoke-Git add @commitFiles
+        if ($pagePathspecs.Count) {
+            Invoke-Git add @pagePathspecs
+        }
         Invoke-Git commit -m $commitMsg
         Note "commit: $commitMsg"
     }
